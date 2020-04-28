@@ -39,8 +39,19 @@ class Juiz():
         print(self.row, 'row')
         self.worksheet.write(self.row, 0, results[0])
         cell = 1
+        valores = []
+        intermediario = []
+        contador = 1
         for x in results[1]:
-            self.worksheet.write(self.row, cell, x)
+            if contador % self.NumeroDeListas == 0:
+                valores.append(sum(intermediario)/self.NumeroDeListas)
+                intermediario = []
+            else:
+                intermediario.append(x)
+            contador +=1
+        print(valores)
+        for y in valores:
+            self.worksheet.write(self.row, cell, y)
             cell += 1
         # self.workbook.close()
         self.row += 1
