@@ -23,7 +23,7 @@ class Juiz():
     
     
     def comecarXLS(self):
-        self.workbook = xlsxwriter.Workbook('Resultados2.xls')
+        self.workbook = xlsxwriter.Workbook('Resultados.xls')
         self.worksheet = self.workbook.add_worksheet()
         self.worksheet.write(self.row, 0, 'Algorítimo')
         cell = 1
