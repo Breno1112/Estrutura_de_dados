@@ -171,41 +171,24 @@ class Algoritimos():
     
 
 
-    def partition(self, arr,low,high): 
-        i = ( low-1 )         # index of smaller element 
-        pivot = arr[high]     # pivot 
-    
-        for j in range(low , high): 
-    
-            # If current element is smaller than or 
-            # equal to pivot 
-            if   arr[j] <= pivot: 
-            
-                # increment index of smaller element 
-                i = i+1 
-                arr[i],arr[j] = arr[j],arr[i] 
-    
-        arr[i+1],arr[high] = arr[high],arr[i+1] 
-        return ( i+1 ) 
-    
-    
-    def quickSort(self, arr, low = False, high = False):
-        if low == False:
-            low = 0
-        if high == False:
-            high = len(arr) -1
-        
-        if low < high: 
-  
-            # pi is partitioning index, arr[p] is now 
-            # at right place 
-            pi = self.partition(arr,low,high) 
-    
-            # Separately sort elements before 
-            # partition and after partition 
-            self.quickSort(arr, low, pi-1) 
-            self.quickSort(arr, pi+1, high) 
-    
+    def quickSort(self, sequence):
+        length = len(sequence)
+        if length <= 1:
+            return sequence
+        else:
+            pivot = sequence.pop()
+
+        items_greater = []
+        items_lower = []
+
+        for item in sequence:
+            if item > pivot:
+                items_greater.append(item)
+
+            else:
+                items_lower.append(item)
+
+        return self.quickSort(items_lower) + [pivot] + self.quickSort(items_greater)
     
     
     def countingSort(self, valores):
@@ -225,4 +208,4 @@ if __name__ == '__main__':
     # x = Juiz()
     x = Algoritimos('quicksort', [])
     lista = [1,4,56,7,4,3,2,45,7,4]
-    x.quickSort(lista)
+    print(x.quickSort(lista))
