@@ -12,10 +12,17 @@ class Juiz():
         self.comecarXLS()
         print('Iniciando avaliação de algorítimos')
         self.rotina()
+    
+    
+    
     def rotina(self):
         for x in self.algoritimos:
             # self.gerarListas()
             self.testar(x, self.gerarListas())
+        self.workbook.close()
+    
+    
+    
     def comecarXLS(self):
         self.workbook = xlsxwriter.Workbook('Resultados2.xls')
         self.worksheet = self.workbook.add_worksheet()
@@ -25,6 +32,9 @@ class Juiz():
             self.worksheet.write(self.row, cell, 'N={}'.format(x))
             cell +=1
         self.row +=1
+    
+    
+    
     def escreverResultados(self, results):
         print(self.row, 'row')
         self.worksheet.write(self.row, 0, results[0])
@@ -32,8 +42,11 @@ class Juiz():
         for x in results[1]:
             self.worksheet.write(self.row, cell, x)
             cell += 1
-        self.workbook.close()
+        # self.workbook.close()
         self.row += 1
+    
+    
+    
     def gerarListas(self):
         listas = []
         for x in self.tamanhos: # 10 100 1000
@@ -48,6 +61,7 @@ class Juiz():
         return listas
                 
 
+    
     def testar(self, algoritimo, listas):
         tester = Algoritimos(algoritimo, listas)
         results = tester.getResults()
@@ -69,6 +83,9 @@ class Algoritimos():
         print('algoritimos comecando')
         print('Algoritimo %s' %self.algoritimo)
         self.handleAlgoritimo()
+    
+    
+    
     def handleAlgoritimo(self):
         switcher = {
             'bubble sort': self.bubleSort,
@@ -85,6 +102,9 @@ class Algoritimos():
                     got(y)
                     self.endTime.append(time.time() - self.startTime)
                     print('fim')
+    
+    
+    
     def bubleSort(self, nlist):
         for passnum in range(len(nlist)-1,0,-1):
             for i in range(passnum):
@@ -191,9 +211,6 @@ class Algoritimos():
 
         return self.quickSort(items_lower) + [pivot] + self.quickSort(items_greater)
     
-
-    
-    # Counting sort in Python programming
 
 
     def countingSort(self, unsorted):
