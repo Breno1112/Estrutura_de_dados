@@ -7,8 +7,7 @@ class Juiz():
         self.algoritimos = ['bubble sort', 'mergesort', 'insertion sort', 'quicksort', 'counting sort']
         self.NumeroDeListas = 10
         self.row = 0
-        # self.tamanhos = [1000, 10000, 100000, 1000000, 10000000]
-        self.tamanhos = [1, 10]
+        self.tamanhos = [1000, 10000, 100000, 1000000, 10000000]
         self.comecarXLS()
         print('Iniciando avaliação de algorítimos')
         self.rotina()
