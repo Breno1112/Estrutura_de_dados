@@ -193,12 +193,22 @@ class Algoritimos():
     
 
     
-    def countingSort(self, valores):
-        print('counting sort')
-        for x in self.listas:
-            self.startTime = time.time()
-            # print(x)
-            self.endTime.append(time.time() - self.startTime)
+    # Counting sort in Python programming
+
+
+    def countingSort(self, unsorted):
+        result = [0] * len(unsorted)
+        low = min(unsorted)      # we don't care if this is positive or negative any more!
+        high = max(unsorted)
+        count_array = [0 for i in range(low, high+1)]
+        for i in unsorted:
+            count_array[i-low] += 1             # use an offset index
+        for j in range(1, len(count_array)):
+            count_array[j] += count_array[j-1]
+        for k in reversed(unsorted):
+            result[count_array[k-low] - 1] = k  # here too
+            count_array[k-low] -= 1             # and here
+        return result 
     
     
     
@@ -208,6 +218,3 @@ class Algoritimos():
 
 if __name__ == '__main__':
     x = Juiz()
-    # x = Algoritimos('quicksort', [])
-    # lista = [1,4,56,7,4,3,2,45,7,4]
-    # print(x.quickSort(lista))
