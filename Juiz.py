@@ -68,7 +68,7 @@ class Algoritimos():
         self.listas = listas
         print('algoritimos comecando')
         print('Algoritimo %s' %self.algoritimo)
-        # self.handleAlgoritimo()
+        self.handleAlgoritimo()
     def handleAlgoritimo(self):
         switcher = {
             'bubble sort': self.bubleSort,
@@ -112,6 +112,7 @@ class Algoritimos():
         #juntamos o resultado da partição das duas listas anteriores 
         return self.merge(lista_L, lista_R)
     
+
 
     def merge(self, lista_L, lista_R):
         # se uma lista está vazia, então não faço nada
@@ -190,6 +191,7 @@ class Algoritimos():
 
         return self.quickSort(items_lower) + [pivot] + self.quickSort(items_greater)
     
+
     
     def countingSort(self, valores):
         print('counting sort')
@@ -205,7 +207,7 @@ class Algoritimos():
 
 
 if __name__ == '__main__':
-    # x = Juiz()
-    x = Algoritimos('quicksort', [])
-    lista = [1,4,56,7,4,3,2,45,7,4]
-    print(x.quickSort(lista))
+    x = Juiz()
+    # x = Algoritimos('quicksort', [])
+    # lista = [1,4,56,7,4,3,2,45,7,4]
+    # print(x.quickSort(lista))
