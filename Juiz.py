@@ -8,7 +8,7 @@ class Juiz():
         self.NumeroDeListas = 10
         self.row = 0
         # self.tamanhos = [1000, 10000, 100000, 1000000, 10000000]
-        self.tamanhos = [1, 10, 100, 1000, 10000]
+        self.tamanhos = [1, 10]
         self.comecarXLS()
         print('Iniciando avaliação de algorítimos')
         self.rotina()
@@ -68,11 +68,11 @@ class Algoritimos():
         self.listas = listas
         print('algoritimos comecando')
         print('Algoritimo %s' %self.algoritimo)
-        self.handleAlgoritimo()
+        # self.handleAlgoritimo()
     def handleAlgoritimo(self):
         switcher = {
             'bubble sort': self.bubleSort,
-            'mergesort': self.mergesort,
+            'mergesort': self.merge_sort,
             'insertion sort': self.insertionSort,
             'quicksort': self.quickSort,
             'counting sort': self.countingSort
@@ -81,93 +81,148 @@ class Algoritimos():
         if got != False:
             for x in self.listas:
                 for y in x:
+                    self.startTime = time.time()
                     got(y)
+                    self.endTime.append(time.time() - self.startTime)
                     print('fim')
     def bubleSort(self, nlist):
-        self.startTime = time.time()
         for passnum in range(len(nlist)-1,0,-1):
             for i in range(passnum):
                 if nlist[i]>nlist[i+1]:
                     temp = nlist[i]
                     nlist[i] = nlist[i+1]
                     nlist[i+1] = temp
-        self.endTime.append(time.time() - self.startTime)
-    def mergesort(self, arr, l, r):
-        if l < r: 
-            # Same as (l+r)//2, but avoids overflow for 
-            # large l and h 
-            m = (l+(r-1))//2
+
+
+
+    def merge_sort(self, lista):
+        # self.startTime = time.time()
+        # se a lista tem menos de 2 elementos, 
+        # retorna a lista sem fazer nada
+        if len(lista) < 2:
+            return lista
+
+        #caso contrario a lista é dividida em duas partes
+        centro = len(lista) // 2
+
+        #chamadas recursivas para listas da esquerda e direita
+        lista_L = self.merge_sort(lista[:centro])
+        lista_R = self.merge_sort(lista[centro:])
+        
+        #juntamos o resultado da partição das duas listas anteriores 
+        return self.merge(lista_L, lista_R)
     
-            # Sort first and second halves 
-            self.mergesort(arr, l, m) 
-            self.mergesort(arr, m+1, r) 
-            self.merge(arr, l, m, r) 
-    def merge(self, arr, l, m, r):
-        n1 = m - l + 1
-        n2 = r- m 
+
+    def merge(self, lista_L, lista_R):
+        # se uma lista está vazia, então não faço nada
+        # e devo retornar a outra lista
+        if len(lista_L) == 0:
+            return lista_R
+
+        # se a segunda lista está vazia, então não faço nada
+        # e retorno a primeira lista
+        if len(lista_R) == 0:
+            return lista_L
+
+        result = []
+        index_L = index_R = 0
+
+        # iremos processar tanto a lista da esquerda quanto
+        # a lista da direita, então a lista de resultado deverá
+        # terminar com o mesmo numero de elementos do que ambas listas
+        while len(result) < len(lista_L) + len(lista_R):
+            # realizo a ordenação e vou salvando na nova lista de resultados
+            if lista_L[index_L] <= lista_R[index_R]:
+                result.append(lista_L[index_L])
+                index_L += 1
+            else:
+                result.append(lista_R[index_R])
+                index_R += 1
+
+            # Se alguma das listas é "esvaziada" então
+            # copio os elementos restantes da outra lista
+            # na lista de resultados e fecho/interrumpo o loop 
+            if index_R == len(lista_R):
+                result += lista_L[index_L:]
+                break
+
+            if index_L == len(lista_L):
+                result += lista_R[index_R:]
+                break
+
+        return result
+
+
+
+    def insertionSort(self, arr):
+        # Traverse through 1 to len(arr) 
+        for i in range(1, len(arr)): 
+    
+            key = arr[i] 
+    
+            # Move elements of arr[0..i-1], that are 
+            # greater than key, to one position ahead 
+            # of their current position 
+            j = i-1
+            while j >=0 and key < arr[j] : 
+                    arr[j+1] = arr[j] 
+                    j -= 1
+            arr[j+1] = key 
+    
+
+
+    def partition(self, arr,low,high): 
+        i = ( low-1 )         # index of smaller element 
+        pivot = arr[high]     # pivot 
+    
+        for j in range(low , high): 
+    
+            # If current element is smaller than or 
+            # equal to pivot 
+            if   arr[j] <= pivot: 
+            
+                # increment index of smaller element 
+                i = i+1 
+                arr[i],arr[j] = arr[j],arr[i] 
+    
+        arr[i+1],arr[high] = arr[high],arr[i+1] 
+        return ( i+1 ) 
+    
+    
+    def quickSort(self, arr, low = False, high = False):
+        if low == False:
+            low = 0
+        if high == False:
+            high = len(arr) -1
+        
+        if low < high: 
   
-        # create temp arrays 
-        L = [0] * (n1) 
-        R = [0] * (n2) 
+            # pi is partitioning index, arr[p] is now 
+            # at right place 
+            pi = self.partition(arr,low,high) 
     
-        # Copy data to temp arrays L[] and R[] 
-        for i in range(0 , n1): 
-            L[i] = arr[l + i] 
+            # Separately sort elements before 
+            # partition and after partition 
+            self.quickSort(arr, low, pi-1) 
+            self.quickSort(arr, pi+1, high) 
     
-        for j in range(0 , n2): 
-            R[j] = arr[m + 1 + j] 
     
-        # Merge the temp arrays back into arr[l..r] 
-        i = 0     # Initial index of first subarray 
-        j = 0     # Initial index of second subarray 
-        k = l     # Initial index of merged subarray 
     
-        while i < n1 and j < n2 : 
-            if L[i] <= R[j]: 
-                arr[k] = L[i] 
-                i += 1
-            else: 
-                arr[k] = R[j] 
-                j += 1
-            k += 1
-    
-        # Copy the remaining elements of L[], if there 
-        # are any 
-        while i < n1: 
-            arr[k] = L[i] 
-            i += 1
-            k += 1
-    
-        # Copy the remaining elements of R[], if there 
-        # are any 
-        while j < n2: 
-            arr[k] = R[j] 
-            j += 1
-            k += 1
-    
-    # l is for left index and r is right index of the 
-    # sub-array of arr to be sorted 
-    def insertionSort(self, valores):
-        print('insertion sort')
-        for x in self.listas:
-            self.startTime = time.time()
-            # print(x)
-            self.endTime.append(time.time() - self.startTime)
-    def quickSort(self, valores):
-        print('quicksort')
-        for x in self.listas:
-            self.startTime = time.time()
-            # print(x)
-            self.endTime.append(time.time() - self.startTime)
     def countingSort(self, valores):
         print('counting sort')
         for x in self.listas:
             self.startTime = time.time()
             # print(x)
             self.endTime.append(time.time() - self.startTime)
+    
+    
+    
     def getResults(self):
         return [self.algoritimo, self.endTime]
 
 
 if __name__ == '__main__':
-    x = Juiz()
+    # x = Juiz()
+    x = Algoritimos('quicksort', [])
+    lista = [1,4,56,7,4,3,2,45,7,4]
+    x.quickSort(lista)
